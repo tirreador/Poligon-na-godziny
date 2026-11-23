@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Poligon na Godziny — tor off-road we Wrocławiu</title>
+  <meta name="description" content="Poligon na Godziny to tor off-road we Wrocławiu. Po krótkim szkoleniu możesz usiąść za kierownicą naszej terenówki i spróbować swoich sił na przeszkodach. Możesz też pokonać trasę jako pasażer, przyjechać własnym 4×4 albo zabrać ekipę na wspólny wypad.">
+  <meta name="theme-color" content="#20251F">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" as="image" href="media/hero-4f819145-960.avif" imagesrcset="media/hero-4f819145-640.avif 640w, media/hero-4f819145-960.avif 960w, media/hero-4f819145-1280.avif 1280w, media/hero-4f819145-1600.avif 1600w" imagesizes="(min-width: 900px) 58vw, 100vw" type="image/avif" fetchpriority="high">
+  <style>@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fonts/barlow-condensed-latin-ext-700.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fonts/barlow-condensed-latin-700.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/source-sans-3-latin-ext-400.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/source-sans-3-latin-400.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("fonts/source-sans-3-latin-ext-600.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("fonts/source-sans-3-latin-600.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  --grafit: #20251f;
+  --piasek: #f4f0e6;
+  --las: #394a36;
+  --zolty: #ffc82c;
+  --bialy: #fffcf7;
+  --linia: rgba(32, 37, 31, 0.14);
+  --header: 4.25rem;
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { overflow-x: clip; }
+
+body {
+  margin: 0;
+  overflow-x: clip;
+  background: var(--piasek);
+  color: var(--grafit);
+  font-family: "Source Sans 3", "Segoe UI", sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+
+img { max-width: 100%; }
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 3px solid var(--zolty);
+  outline-offset: 3px;
+}
+
+.skip {
+  position: absolute;
+  left: 12px;
+  top: -40px;
+  background: var(--zolty);
+  color: var(--grafit);
+  padding: 8px 12px;
+  z-index: 5;
+}
+.skip:focus { top: 8px; }
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 16px;
+  min-height: var(--header);
+  padding: 8px 16px;
+  background: var(--grafit);
+  color: var(--piasek);
+}
+
+.brand {
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  font-weight: 700;
+  font-size: 1.45rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--piasek);
+  line-height: 1;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 2px;
+}
+
+.nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 8px;
+  color: var(--piasek);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.98rem;
+}
+
+.nav a:hover { color: var(--zolty); }
+
+h1, h2, h3, h4 {
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+h1 { font-size: clamp(2.35rem, 7.4vw, 4.4rem); }
+h2 { font-size: clamp(2.1rem, 6vw, 3.4rem); }
+h3 { font-size: 1.85rem; }
+h4 { font-size: 1.35rem; margin-bottom: 4px; }
+
+.hero {
+  background: var(--piasek);
+}
+
+.hero-photo {
+  position: relative;
+  height: 220px;
+  background: var(--grafit);
+  overflow: hidden;
+}
+
+.hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center 62%;
+}
+
+.hero-copy {
+  padding: 22px 16px 28px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.82rem;
+}
+
+.lead, .intro, .detail, .note, .address {
+  margin: 0;
+}
+
+.lead { margin-top: 14px; max-width: 42rem; }
+
+.hero-actions, .voucher-actions, .contact-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 8px 16px;
+  background: var(--zolty);
+  color: var(--grafit);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  border: 0;
+  border-radius: 12px;
+}
+
+.btn:hover { filter: brightness(0.96); }
+.btn:focus-visible { outline-color: var(--grafit); }
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  font-weight: 600;
+  color: var(--grafit);
+}
+
+section[id] { scroll-margin-top: 6.75rem; }
+
+.wrap { padding: 36px 16px 40px; }
+
+#cennik, #dojazd { background: var(--piasek); }
+#galeria { background: var(--bialy); }
+#aktualnosci { background: var(--bialy); }
+
+.intro { margin-top: 10px; max-width: 40rem; }
+
+.phone-line {
+  margin: 14px 0 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.phone-line a {
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.phone-line span,
+.fine {
+  display: inline;
+  font-size: 0.92rem;
+  font-weight: 400;
+}
+
+.cards {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px 16px 16px;
+  background: var(--bialy);
+  border: 1px solid var(--linia);
+}
+
+.card p { margin: 0; }
+.card .btn { align-self: flex-start; margin-top: auto; }
+
+.lines { display: grid; gap: 12px; }
+
+.line + .line { padding-top: 12px; border-top: 1px solid var(--linia); }
+
+.rate {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin: 6px 0 0;
+}
+
+.amount {
+  font-size: 1.7rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.amount small {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.time {
+  flex: 0 0 auto;
+  font-weight: 600;
+}
+
+.ask .amount {
+  font-size: 1.2rem;
+  max-width: 14rem;
+}
+
+.note {
+  font-size: 0.95rem;
+  padding-top: 2px;
+}
+
+#voucher {
+  background: var(--las);
+  color: var(--piasek);
+}
+
+.voucher-inner .intro { color: var(--piasek); }
+
+.phone-line.light a { color: var(--piasek); }
+.phone-line.light span { color: var(--piasek); }
+
+#voucher .btn:focus-visible { outline-color: var(--piasek); }
+
+.gallery {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.shot {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.shot picture { display: block; aspect-ratio: 3 / 2; background: var(--grafit); overflow: hidden; }
+.shot img { width: 100%; height: 100%; object-fit: cover; }
+
+.shot-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 2px 4px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.badge {
+  align-self: flex-start;
+  padding: 2px 7px;
+  background: var(--zolty);
+  color: var(--grafit);
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.video-link { margin: 18px 0 0; }
+.video-link a { font-weight: 600; }
+
+.address {
+  margin-top: 10px;
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.news {
+  margin: 12px 0 0;
+  padding-left: 1.1rem;
+}
+
+.site-footer {
+  padding: 28px 16px 36px;
+  background: var(--grafit);
+  color: var(--piasek);
+}
+
+.site-footer p { margin: 0 0 6px; }
+.site-footer a { color: var(--piasek); }
+.fine { max-width: 36rem; opacity: 0.8; }
+
+.lightbox {
+  width: 100vw;
+  max-width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+  margin: 0;
+  padding: 16px 16px 88px;
+  border: 0;
+  background: var(--grafit);
+  color: var(--piasek);
+}
+
+.lightbox::backdrop { background: rgba(32, 37, 31, 0.92); }
+
+.lightbox figure {
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+
+.lightbox img {
+  width: auto;
+  max-width: 100%;
+  max-height: calc(100vh - 160px);
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.lightbox figcaption { margin: 0; text-align: center; }
+
+.lightbox-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 12px 12px calc(12px + env(safe-area-inset-bottom));
+  background: var(--grafit);
+}
+
+.lightbox-bar button {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--zolty);
+  color: var(--grafit);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lightbox-bar button:focus-visible { outline-color: var(--piasek); }
+
+@media (min-width: 720px) {
+  .hero-photo { height: 320px; }
+  .hero-copy, .wrap, .site-header, .site-footer { padding-left: 32px; padding-right: 32px; }
+  .gallery { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .hero-actions, .voucher-actions, .contact-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .btn { width: fit-content; }
+  .contact {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 28px;
+    align-items: end;
+  }
+}
+
+@media (min-width: 960px) {
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+    min-height: calc(100vh - var(--header));
+  }
+  .hero-photo { height: auto; min-height: 100%; }
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 48px 48px 48px 40px;
+  }
+  .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; }
+  .voucher-inner {
+    display: grid;
+    grid-template-columns: 1.4fr 0.8fr;
+    gap: 32px;
+    align-items: center;
+  }
+  .voucher-actions { margin-top: 0; justify-content: flex-end; }
+}
+</style>
+</head>
+<body>
+  <a class="skip" href="#tresc">Przejdź do treści</a>
+  <header class="site-header">
+    <a class="brand" href="#tresc">Poligon na Godziny</a>
+    <nav class="nav" aria-label="Sekcje strony">
+      <a href="#cennik">Cennik</a><a href="#voucher">Voucher</a><a href="#galeria">Galeria</a><a href="#dojazd">Dojazd</a>
+    </nav>
+  </header>
+  <main id="tresc">
+    <section class="hero" aria-labelledby="hero-tytul">
+      <div class="hero-photo">
+        <picture>
+    <source type="image/avif" srcset="media/hero-4f819145-640.avif 640w, media/hero-4f819145-960.avif 960w, media/hero-4f819145-1280.avif 1280w, media/hero-4f819145-1600.avif 1600w" sizes="(min-width: 900px) 58vw, 100vw">
+    <source type="image/webp" srcset="media/hero-4f819145-640.webp 640w, media/hero-4f819145-960.webp 960w, media/hero-4f819145-1280.webp 1280w, media/hero-4f819145-1600.webp 1600w" sizes="(min-width: 900px) 58vw, 100vw">
+    <img class="hero-img" src="media/hero-4f819145-1600.webp" alt="Terenówka pokonuje błotnistą przeszkodę na torze, w tle jesienne krzewy i niebo" width="1600" height="1066" fetchpriority="high" decoding="async">
+  </picture>
+      </div>
+      <div class="hero-copy">
+        <p class="eyebrow">Wrocław · jazda terenowa</p>
+        <h1 id="hero-tytul">Jazda terenowa we Wrocławiu</h1>
+        <p class="lead">Poligon na Godziny to tor off-road we Wrocławiu. Po krótkim szkoleniu możesz usiąść za kierownicą naszej terenówki i spróbować swoich sił na przeszkodach. Możesz też pokonać trasę jako pasażer, przyjechać własnym 4×4 albo zabrać ekipę na wspólny wypad.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#cennik">Sprawdź cennik</a>
+          <a class="text-link" href="#voucher">Szukam vouchera</a>
+        </div>
+      </div>
+    </section>
+    
+    <section id="cennik" aria-labelledby="cennik-tytul">
+      <div class="wrap">
+        <h2 id="cennik-tytul">Cennik</h2>
+        <p class="intro">Trzy sposoby, żeby wjechać na tor. Cena, czas i zakres są od razu widoczne. Termin ustalamy telefonicznie.</p>
+        <p class="phone-line"><a href="tel:+48000000000">+48 000 000 000</a></p>
+        <div class="cards"><article class="card">
+    <h3>Wjazd własną terenówką</h3>
+    <p>Przyjeżdżasz własnym 4×4. Wybierasz godzinę albo cały dzień na torze.</p>
+    <div class="lines"><div class="line"><p class="rate"><span class="amount">71 zł <small>brutto</small></span><span class="time">60 min</span></p></div><div class="line"><p class="rate"><span class="amount">142 zł <small>brutto</small></span><span class="time">dzień</span></p></div></div>
+    
+    <a class="btn" href="tel:+48000000000">Ustal termin wjazdu</a>
+  </article><article class="card">
+    <h3>Przejazd naszą terenówką</h3>
+    <p>Jedziesz autem organizatora — za kierownicą albo jako pasażer. Cenę każdego wariantu ustalamy osobno.</p>
+    <div class="lines"><div class="line"><h4>Prowadzisz</h4><p class="detail">Krótkie szkolenie, potem samodzielna jazda. Kierowca i 2 osoby towarzyszące.</p><p class="rate ask"><span class="amount">Zapytaj o cenę przejazdu</span><span class="time">60 min</span></p></div><div class="line"><h4>Jedziesz jako pasażer</h4><p class="detail">Około 30 minut. Na pokładzie do 3 osób.</p><p class="rate ask"><span class="amount">Zapytaj o cenę przejazdu</span><span class="time">ok. 30 min</span></p></div></div>
+    
+    <a class="btn" href="tel:+48000000000">Ustal termin przejazdu</a>
+  </article><article class="card">
+    <h3>Impreza dla grupy</h3>
+    <p>Wyjazd firmowy, urodziny albo inna impreza prywatna. Całodniowy wypad.</p>
+    <div class="lines"><div class="line"><p class="detail">Liczbę osób i aut oraz ognisko ustalamy przy wycenie.</p><p class="rate ask"><span class="amount">Wycena indywidualna</span><span class="time">cały dzień</span></p></div></div>
+    
+    <a class="btn" href="tel:+48000000000">Zapytaj o imprezę</a>
+  </article></div>
+      </div>
+    </section>
+    <section id="voucher" aria-labelledby="voucher-tytul">
+      <div class="wrap voucher-inner">
+        <div>
+          <h2 id="voucher-tytul">Podaruj jazdę terenową</h2>
+          <p class="intro">Za kierownicą czy na miejscu pasażera? Zadzwoń. Pomożemy dobrać przejazd i ustalimy, jak otrzymasz voucher.</p>
+        </div>
+        <div class="voucher-actions">
+          <a class="btn" href="tel:+48000000000">Zadzwoń w sprawie vouchera</a>
+          <p class="phone-line light"><a href="tel:+48000000000">+48 000 000 000</a></p>
+        </div>
+      </div>
+    </section>
+    <section id="galeria" aria-labelledby="galeria-tytul">
+      <div class="wrap">
+        <h2 id="galeria-tytul">Galeria</h2>
+        <p class="intro">Tor, auta i wspólny wypad. Zdjęcia z rajdu są podpisane „Kozaki”.</p>
+        <ul class="gallery"><li>
+      <button type="button" class="shot" data-gallery-item data-full="media/g1-full-0e390ae6-1600.webp" data-full-w="1600" data-full-h="1064" data-alt="Szara terenówka przejeżdża przez głębokie błoto i koleiny" data-caption="Błoto i koleiny na torze">
+        <picture>
+    <source type="image/avif" srcset="media/g1-0e390ae6-480.avif 480w, media/g1-0e390ae6-960.avif 960w" sizes="(min-width: 800px) 33vw, 50vw">
+    <source type="image/webp" srcset="media/g1-0e390ae6-480.webp 480w, media/g1-0e390ae6-960.webp 960w" sizes="(min-width: 800px) 33vw, 50vw">
+    <img class="" src="media/g1-0e390ae6-960.webp" alt="Szara terenówka przejeżdża przez głębokie błoto i koleiny" width="960" height="639" loading="lazy" decoding="async">
+  </picture>
+        <span class="shot-text">
+          
+          <span>Błoto i koleiny na torze</span>
+        </span>
+      </button>
+    </li><li>
+      <button type="button" class="shot" data-gallery-item data-full="media/g2-full-6a5a1660-1600.webp" data-full-w="1600" data-full-h="1067" data-alt="Biała terenówka wspina się na piaszczystą przeszkodę" data-caption="Piaszczysta przeszkoda">
+        <picture>
+    <source type="image/avif" srcset="media/g2-6a5a1660-480.avif 480w, media/g2-6a5a1660-960.avif 960w" sizes="(min-width: 800px) 33vw, 50vw">
+    <source type="image/webp" srcset="media/g2-6a5a1660-480.webp 480w, media/g2-6a5a1660-960.webp 960w" sizes="(min-width: 800px) 33vw, 50vw">
+    <img class="" src="media/g2-6a5a1660-960.webp" alt="Biała terenówka wspina się na piaszczystą przeszkodę" width="960" height="640" loading="lazy" decoding="async">
+  </picture>
+        <span class="shot-text">
+          
+          <span>Piaszczysta przeszkoda</span>
+        </span>
+      </button>
+    </li><li>
+      <button type="button" class="shot" data-gallery-item data-full="media/g3-full-557eede4-1600.webp" data-full-w="1600" data-full-h="1074" data-alt="Pomarańcza, otwarta terenówka bez drzwi, przecina błotnistą kałużę" data-caption="Pomarańcza w błocie">
+        <picture>
+    <source type="image/avif" srcset="media/g3-557eede4-480.avif 480w, media/g3-557eede4-960.avif 960w" sizes="(min-width: 800px) 33vw, 50vw">
+    <source type="image/webp" srcset="media/g3-557eede4-480.webp 480w, media/g3-557eede4-960.webp 960w" sizes="(min-width: 800px) 33vw, 50vw">
+    <img class="" src="media/g3-557eede4-960.webp" alt="Pomarańcza, otwarta terenówka bez drzwi, przecina błotnistą kałużę" width="960" height="645" loading="lazy" decoding="async">
+  </picture>
+        <span class="shot-text">
+          
+          <span>Pomarańcza w błocie</span>
+        </span>
+      </button>
+    </li><li>
+      <button type="button" class="shot" data-gallery-item data-full="media/g4-full-290bfd08-1600.webp" data-full-w="1600" data-full-h="1064" data-alt="Dwie uśmiechnięte osoby siedzą w otwartej terenówce po jeździe w błocie" data-caption="Przejazd we dwójkę">
+        <picture>
+    <source type="image/avif" srcset="media/g4-290bfd08-480.avif 480w, media/g4-290bfd08-960.avif 960w" sizes="(min-width: 800px) 33vw, 50vw">
+    <source type="image/webp" srcset="media/g4-290bfd08-480.webp 480w, media/g4-290bfd08-960.webp 960w" sizes="(min-width: 800px) 33vw, 50vw">
+    <img class="" src="media/g4-290bfd08-960.webp" alt="Dwie uśmiechnięte osoby siedzą w otwartej terenówce po jeździe w błocie" width="960" height="639" loading="lazy" decoding="async">
+  </picture>
+        <span class="shot-text">
+          
+          <span>Przejazd we dwójkę</span>
+        </span>
+      </button>
+    </li><li>
+      <button type="button" class="shot" data-gallery-item data-full="media/g5-full-1ca8f977-1600.webp" data-full-w="1600" data-full-h="1064" data-alt="Zawodnik w koszulce Kozaki wskazuje terenówkę przejeżdżającą przez wodę" data-caption="Kozaki — Przejazd przez wodę">
+        <picture>
+    <source type="image/avif" srcset="media/g5-1ca8f977-480.avif 480w, media/g5-1ca8f977-960.avif 960w" sizes="(min-width: 800px) 33vw, 50vw">
+    <source type="image/webp" srcset="media/g5-1ca8f977-480.webp 480w, media/g5-1ca8f977-960.webp 960w" sizes="(min-width: 800px) 33vw, 50vw">
+    <img class="" src="media/g5-1ca8f977-960.webp" alt="Zawodnik w koszulce Kozaki wskazuje terenówkę przejeżdżającą przez wodę" width="960" height="639" loading="lazy" decoding="async">
+  </picture>
+        <span class="shot-text">
+          <span class="badge">Kozaki</span>
+          <span>Przejazd przez wodę</span>
+        </span>
+      </button>
+    </li><li>
+      <button type="button" class="shot" data-gallery-item data-full="media/g6-full-e32a628f-1600.webp" data-full-w="1600" data-full-h="1064" data-alt="Duża grupa uczestników rajdu Kozaki pozuje razem na trawie o zachodzie słońca" data-caption="Kozaki — Wspólne zdjęcie uczestników">
+        <picture>
+    <source type="image/avif" srcset="media/g6-e32a628f-480.avif 480w, media/g6-e32a628f-960.avif 960w" sizes="(min-width: 800px) 33vw, 50vw">
+    <source type="image/webp" srcset="media/g6-e32a628f-480.webp 480w, media/g6-e32a628f-960.webp 960w" sizes="(min-width: 800px) 33vw, 50vw">
+    <img class="" src="media/g6-e32a628f-960.webp" alt="Duża grupa uczestników rajdu Kozaki pozuje razem na trawie o zachodzie słońca" width="960" height="639" loading="lazy" decoding="async">
+  </picture>
+        <span class="shot-text">
+          <span class="badge">Kozaki</span>
+          <span>Wspólne zdjęcie uczestników</span>
+        </span>
+      </button>
+    </li></ul>
+        
+      </div>
+    </section>
+    <section id="dojazd" aria-labelledby="dojazd-tytul">
+      <div class="wrap contact">
+        <div>
+          <h2 id="dojazd-tytul">Kontakt i dojazd</h2>
+          <p class="address">ul. Gałowska 73, Wrocław</p>
+          <p class="intro">Nawigacja prowadzi pod ten adres. Jeśli z drogi trudno rozpoznać skręt, zadzwoń.</p>
+        </div>
+        <div class="contact-actions">
+          <p class="phone-line"><a href="tel:+48000000000">+48 000 000 000</a></p>
+          <a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=ul.%20Gałowska%2073%2C%20Wrocław">Prowadź do wjazdu</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p class="brand">Poligon na Godziny</p>
+    <p><a href="tel:+48000000000">+48 000 000 000</a></p>
+    <p>ul. Gałowska 73, Wrocław</p>
+  </footer>
+  <dialog class="lightbox" data-lightbox aria-label="Powiększone zdjęcie">
+    <figure>
+      <img alt="">
+      <figcaption></figcaption>
+    </figure>
+    <div class="lightbox-bar">
+      <button type="button" data-prev>Poprzednie</button>
+      <button type="button" data-next>Następne</button>
+      <button type="button" data-close>Zamknij</button>
+    </div>
+  </dialog>
+  <script src="gallery.js" defer></script>
+</body>
+</html>
