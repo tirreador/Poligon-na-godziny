@@ -1,0 +1,144 @@
+{
+  "hero": {
+    "brand": "Poligon na Godziny",
+    "eyebrow": "Wrocław · jazda terenowa",
+    "title": "Jazda terenowa we Wrocławiu",
+    "lead": "Poligon na Godziny to tor off-road we Wrocławiu. Po krótkim szkoleniu możesz usiąść za kierownicą naszej terenówki i spróbować swoich sił na przeszkodach. Możesz też pokonać trasę jako pasażer, przyjechać własnym 4×4 albo zabrać ekipę na wspólny wypad.",
+    "image": "hero.jpg",
+    "imageAlt": "Terenówka pokonuje błotnistą przeszkodę na torze, w tle jesienne krzewy i niebo",
+    "primaryLabel": "Sprawdź cennik",
+    "secondaryLabel": "Szukam vouchera"
+  },
+  "pricingIntro": "Trzy sposoby, żeby wjechać na tor. Cena, czas i zakres są od razu widoczne. Termin ustalamy telefonicznie.",
+  "offers": [
+    {
+      "id": "wlasne",
+      "name": "Wjazd własną terenówką",
+      "summary": "Przyjeżdżasz własnym 4×4. Wybierasz godzinę albo cały dzień na torze.",
+      "note": "",
+      "ctaLabel": "Ustal termin wjazdu",
+      "lines": [
+        {
+          "label": "",
+          "detail": "",
+          "amount": "71 zł",
+          "unit": "brutto",
+          "time": "60 min",
+          "ask": ""
+        },
+        {
+          "label": "",
+          "detail": "",
+          "amount": "142 zł",
+          "unit": "brutto",
+          "time": "dzień",
+          "ask": ""
+        }
+      ]
+    },
+    {
+      "id": "nasze",
+      "name": "Przejazd naszą terenówką",
+      "summary": "Jedziesz autem organizatora — za kierownicą albo jako pasażer. Cenę każdego wariantu ustalamy osobno.",
+      "note": "",
+      "ctaLabel": "Ustal termin przejazdu",
+      "lines": [
+        {
+          "label": "Prowadzisz",
+          "detail": "Krótkie szkolenie, potem samodzielna jazda. Kierowca i 2 osoby towarzyszące.",
+          "amount": "",
+          "unit": "",
+          "time": "60 min",
+          "ask": "Zapytaj o cenę przejazdu"
+        },
+        {
+          "label": "Jedziesz jako pasażer",
+          "detail": "Około 30 minut. Na pokładzie do 3 osób.",
+          "amount": "",
+          "unit": "",
+          "time": "ok. 30 min",
+          "ask": "Zapytaj o cenę przejazdu"
+        }
+      ]
+    },
+    {
+      "id": "impreza",
+      "name": "Impreza dla grupy",
+      "summary": "Wyjazd firmowy, urodziny albo inna impreza prywatna. Całodniowy wypad.",
+      "note": "",
+      "ctaLabel": "Zapytaj o imprezę",
+      "lines": [
+        {
+          "label": "",
+          "detail": "Liczbę osób i aut oraz ognisko ustalamy przy wycenie.",
+          "amount": "",
+          "unit": "",
+          "time": "cały dzień",
+          "ask": "Wycena indywidualna"
+        }
+      ]
+    }
+  ],
+  "voucher": {
+    "title": "Podaruj jazdę terenową",
+    "body": "Za kierownicą czy na miejscu pasażera? Zadzwoń. Pomożemy dobrać przejazd i ustalimy, jak otrzymasz voucher.",
+    "button": "Zadzwoń w sprawie vouchera"
+  },
+  "gallery": [
+    {
+      "id": "g1",
+      "file": "g1.jpg",
+      "alt": "Szara terenówka przejeżdża przez głębokie błoto i koleiny",
+      "caption": "Błoto i koleiny na torze",
+      "tag": ""
+    },
+    {
+      "id": "g2",
+      "file": "g2.jpg",
+      "alt": "Biała terenówka wspina się na piaszczystą przeszkodę",
+      "caption": "Piaszczysta przeszkoda",
+      "tag": ""
+    },
+    {
+      "id": "g3",
+      "file": "g3.jpg",
+      "alt": "Pomarańcza, otwarta terenówka bez drzwi, przecina błotnistą kałużę",
+      "caption": "Pomarańcza w błocie",
+      "tag": ""
+    },
+    {
+      "id": "g4",
+      "file": "g4.jpg",
+      "alt": "Dwie uśmiechnięte osoby siedzą w otwartej terenówce po jeździe w błocie",
+      "caption": "Przejazd we dwójkę",
+      "tag": ""
+    },
+    {
+      "id": "g5",
+      "file": "g5.jpg",
+      "alt": "Zawodnik w koszulce Kozaki wskazuje terenówkę przejeżdżającą przez wodę",
+      "caption": "Przejazd przez wodę",
+      "tag": "Kozaki"
+    },
+    {
+      "id": "g6",
+      "file": "g6.jpg",
+      "alt": "Duża grupa uczestników rajdu Kozaki pozuje razem na trawie o zachodzie słońca",
+      "caption": "Wspólne zdjęcie uczestników",
+      "tag": "Kozaki"
+    }
+  ],
+  "video": {
+    "url": "",
+    "label": "Zobacz nagranie"
+  },
+  "contact": {
+    "phone": "+48 000 000 000",
+    "phoneNote": "",
+    "address": "ul. Gałowska 73, Wrocław",
+    "directions": "Nawigacja prowadzi pod ten adres. Jeśli z drogi trudno rozpoznać skręt, zadzwoń.",
+    "mapsUrl": "https://www.google.com/maps/dir/?api=1&destination=ul.%20Gałowska%2073%2C%20Wrocław",
+    "mapsLabel": "Prowadź do wjazdu"
+  },
+  "news": []
+}

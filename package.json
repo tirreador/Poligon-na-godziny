@@ -1,0 +1,12 @@
+{
+  "name": "poligon-na-godziny",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "publish": "node scripts/publish.js"
+  },
+  "dependencies": {
+    "sharp": "^0.34.4"
+  }
+}

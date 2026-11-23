@@ -1,0 +1,35 @@
+{
+  "data": "2026-11-23",
+  "adres": "http://127.0.0.1:4173/",
+  "warunki": "Lighthouse, telefon, symulowane spowolnienie",
+  "proby": [
+    {
+      "proba": 1,
+      "wydajność": 94,
+      "LCP": "2.9 s",
+      "CLS": "0",
+      "TBT": "0 ms",
+      "FCP": "1.8 s",
+      "SI": "1.8 s"
+    },
+    {
+      "proba": 2,
+      "wydajność": 94,
+      "LCP": "2.9 s",
+      "CLS": "0.01",
+      "TBT": "0 ms",
+      "FCP": "1.8 s",
+      "SI": "1.8 s"
+    },
+    {
+      "proba": 3,
+      "wydajność": 94,
+      "LCP": "2.9 s",
+      "CLS": "0.01",
+      "TBT": "0 ms",
+      "FCP": "1.8 s",
+      "SI": "1.8 s"
+    }
+  ],
+  "medianaWydajnosci": 94
+}
