@@ -1,21 +1,36 @@
 import { createServer } from "node:http";
-import { randomBytes, timingSafeEqual } from "node:crypto";
+import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
 import { access, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
-import { publishSite, restorePublicIfNeeded } from "./lib/publish.js";
+import { publishSite, restorePublicIfNeeded, SITE_PATHS } from "./lib/publish.js";
 import { assertImageName } from "./lib/images.js";
+import { createRepo } from "./lib/repo.js";
 
-const root = path.dirname(fileURLToPath(import.meta.url));
+const appRoot = path.dirname(fileURLToPath(import.meta.url));
+const config = process.env.CMS_CONFIG ? JSON.parse(process.env.CMS_CONFIG) : {};
+const repo = process.env.REPO_URL
+  ? createRepo({
+    dir: process.env.WORK_DIR || "/tmp/site",
+    fetchUrl: process.env.REPO_URL,
+    pushUrl: process.env.REPO_PUSH_URL,
+    branch: process.env.REPO_BRANCH || "main",
+    sshKey: config.deployKey
+  })
+  : null;
+const root = repo ? process.env.WORK_DIR || "/tmp/site" : appRoot;
 const publicDir = path.join(root, "public");
 const uploadsDir = path.join(root, "content", "uploads");
 const draftPath = path.join(root, "content", "draft.json");
 const publishedPath = path.join(root, "content", "published.json");
+const PUBLIC_URL = process.env.PUBLIC_URL || "/";
 const USER = "wlasciciel";
-const PASSWORD = process.env.ADMIN_PASSWORD || "poligon-demo";
-const sessions = new Map();
+const PASSWORD = config.adminPassword || process.env.ADMIN_PASSWORD || "poligon-demo";
+const SESSION_SECRET = config.sessionSecret || process.env.SESSION_SECRET || randomBytes(32).toString("hex");
+const SESSION_MS = 12 * 60 * 60 * 1000;
 const port = Number(process.env.PORT || 4173);
+const host = process.env.HOST || (repo ? "0.0.0.0" : "127.0.0.1");
 
 const types = {
   ".html": "text/html; charset=utf-8",
@@ -47,14 +62,24 @@ function cookies(req) {
   return out;
 }
 
+function sign(value) {
+  return createHmac("sha256", SESSION_SECRET).update(value).digest("hex");
+}
+
+function sessionToken() {
+  const expires = String(Date.now() + SESSION_MS);
+  return `${expires}.${sign(expires)}`;
+}
+
 function sessionUser(req) {
-  const token = cookies(req).poligon;
-  const session = token && sessions.get(token);
-  if (!session || session.expires < Date.now()) {
-    if (token) sessions.delete(token);
-    return null;
-  }
-  return session.user;
+  const [expires, mac] = String(cookies(req).poligon || "").split(".");
+  if (!expires || !mac || !safeEqual(mac, sign(expires)) || Number(expires) < Date.now()) return null;
+  return USER;
+}
+
+function sessionCookie(req, value, maxAge) {
+  const secure = req.headers["x-forwarded-proto"] === "https" ? "; Secure" : "";
+  return `poligon=${value}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${maxAge}${secure}`;
 }
 
 function readBody(req, limit) {
@@ -110,7 +135,7 @@ function loginPage(error) {
   return pageShell("Logowanie — Poligon na Godziny", `
     <main class="login">
       <h1>Poligon na Godziny</h1>
-      <p class="demo"><strong>Dane demonstracyjne.</strong><br>Login: wlasciciel<br>Hasło: ${PASSWORD === "poligon-demo" ? "poligon-demo" : "ustawione w środowisku"}</p>
+      ${PASSWORD === "poligon-demo" ? `<p class="demo"><strong>Dane demonstracyjne.</strong><br>Login: wlasciciel<br>Hasło: poligon-demo</p>` : ""}
       ${error ? `<p class="error">${error}</p>` : ""}
       <form method="post" action="/admin/login">
         <label class="field"><span>Login</span><input name="user" type="text" autocomplete="username" required></label>
@@ -140,7 +165,7 @@ function adminPage(draft, published) {
       <p id="status" role="status"></p>
       <button class="primary" type="button" id="publish">Zapisz i opublikuj</button>
       <button type="button" id="retry" hidden>Ponów</button>
-      <a id="view" href="/" target="_blank" rel="noopener" hidden>Zobacz stronę</a>
+      <a id="view" href="${PUBLIC_URL}" target="_blank" rel="noopener" hidden>Zobacz stronę</a>
     </div>
     <script id="draft-data" type="application/json">${embed(draft)}</script>
     <script id="published-data" type="application/json">${embed(published)}</script>
@@ -185,9 +210,7 @@ async function handle(req, res) {
   if (pathname === "/admin/login" && req.method === "POST") {
     const body = new URLSearchParams((await readBody(req, 20_000)).toString());
     if (safeEqual(body.get("user"), USER) && safeEqual(body.get("password"), PASSWORD)) {
-      const token = randomBytes(24).toString("hex");
-      sessions.set(token, { user: USER, expires: Date.now() + 12 * 60 * 60 * 1000 });
-      send(res, 303, "", { location: "/admin", "set-cookie": `poligon=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=43200` });
+      send(res, 303, "", { location: "/admin", "set-cookie": sessionCookie(req, sessionToken(), SESSION_MS / 1000) });
       return;
     }
     send(res, 401, loginPage("Login lub hasło nie pasuje."), { "content-type": "text/html; charset=utf-8", "cache-control": "no-store" });
@@ -195,9 +218,7 @@ async function handle(req, res) {
   }
 
   if (pathname === "/admin/logout" && req.method === "POST") {
-    const token = cookies(req).poligon;
-    if (token) sessions.delete(token);
-    send(res, 303, "", { location: "/admin", "set-cookie": "poligon=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0" });
+    send(res, 303, "", { location: "/admin", "set-cookie": sessionCookie(req, "", 0) });
     return;
   }
 
@@ -206,6 +227,7 @@ async function handle(req, res) {
       send(res, 200, loginPage(), { "content-type": "text/html; charset=utf-8", "cache-control": "no-store" });
       return;
     }
+    if (repo) await repo.exclusive(() => repo.sync());
     const draft = await readJson(draftPath);
     const published = await readJson(publishedPath);
     send(res, 200, adminPage(draft, published), { "content-type": "text/html; charset=utf-8", "cache-control": "no-store" });
@@ -245,8 +267,24 @@ async function handle(req, res) {
           return;
         }
         const file = `u${Date.now().toString(36)}${randomBytes(3).toString("hex")}.${ext}`;
-        await mkdir(uploadsDir, { recursive: true });
-        await writeFile(path.join(uploadsDir, file), buffer);
+        const save = async () => {
+          await mkdir(uploadsDir, { recursive: true });
+          await writeFile(path.join(uploadsDir, file), buffer);
+        };
+        if (repo) {
+          await repo.exclusive(async () => {
+            await repo.sync();
+            await save();
+            try {
+              await repo.commitAndPush([`content/uploads/${file}`], "Dodaj zdjęcie z panelu.");
+            } catch (error) {
+              await repo.sync();
+              throw new Error("Nie udało się zapisać zdjęcia w repozytorium. Spróbuj ponownie.");
+            }
+          });
+        } else {
+          await save();
+        }
         json(res, 200, { ok: true, file });
       } catch (error) {
         json(res, 400, { ok: false, error: error.message || "Nie udało się wgrać zdjęcia." });
@@ -262,15 +300,51 @@ async function handle(req, res) {
           json(res, 400, { ok: false, error: problem });
           return;
         }
-        await writeFile(draftPath, JSON.stringify(draft, null, 2) + "\n");
-        const result = await publishSite(draft, root);
-        json(res, 200, { ok: true, url: result.url });
+        if (!repo) {
+          await writeFile(draftPath, JSON.stringify(draft, null, 2) + "\n");
+          const result = await publishSite(draft, root);
+          json(res, 200, { ok: true, url: result.url, message: "Opublikowano" });
+          return;
+        }
+        await repo.exclusive(async () => {
+          await repo.sync();
+          try {
+            await writeFile(draftPath, JSON.stringify(draft, null, 2) + "\n");
+            await publishSite(draft, root, { assetsRoot: appRoot });
+            await repo.commitAndPush(SITE_PATHS, "Opublikuj zmiany z panelu.");
+          } catch (error) {
+            await repo.sync();
+            throw error;
+          }
+        });
+        json(res, 200, {
+          ok: true,
+          url: `${PUBLIC_URL}?v=${Date.now()}`,
+          message: "Opublikowano. Strona odświeży się w ciągu około minuty."
+        });
       } catch (error) {
         json(res, 500, { ok: false, error: error.message || "Publikacja nie powiodła się." });
       }
       return;
     }
 
+    send(res, 404, "Nie znaleziono", { "content-type": "text/plain; charset=utf-8" });
+    return;
+  }
+
+  if (repo) {
+    if (pathname === "/") {
+      send(res, 302, "", { location: PUBLIC_URL });
+      return;
+    }
+    if (pathname === "/favicon.svg" || pathname.startsWith("/fonts/")) {
+      const assets = path.join(appRoot, "src");
+      const file = path.resolve(assets, `.${pathname}`);
+      if (inside(assets, file)) {
+        await serveFile(res, file, "public, max-age=86400");
+        return;
+      }
+    }
     send(res, 404, "Nie znaleziono", { "content-type": "text/plain; charset=utf-8" });
     return;
   }
@@ -285,24 +359,29 @@ async function handle(req, res) {
   await serveFile(res, file, cache);
 }
 
-await mkdir(uploadsDir, { recursive: true });
-await restorePublicIfNeeded(root);
-const draft = await readJson(draftPath);
-if (!draft) throw new Error("Brak content/draft.json");
-let published = false;
-try {
-  await access(path.join(publicDir, "index.html"));
-  published = true;
-} catch {
-  published = false;
+if (repo) {
+  await repo.init();
+  if (!(await readJson(draftPath))) throw new Error("Brak content/draft.json w repozytorium.");
+} else {
+  await mkdir(uploadsDir, { recursive: true });
+  await restorePublicIfNeeded(root);
+  const draft = await readJson(draftPath);
+  if (!draft) throw new Error("Brak content/draft.json");
+  let published = false;
+  try {
+    await access(path.join(publicDir, "index.html"));
+    published = true;
+  } catch {
+    published = false;
+  }
+  if (!published) await publishSite(draft, root);
 }
-if (!published) await publishSite(draft, root);
 
 createServer((req, res) => {
   handle(req, res).catch((error) => {
     if (!res.headersSent) json(res, 500, { ok: false, error: error.message || "Błąd serwera." });
   });
-}).listen(port, "127.0.0.1", () => {
-  console.log(`Poligon na Godziny: http://127.0.0.1:${port}`);
+}).listen(port, host, () => {
+  console.log(repo ? `Panel na porcie ${port}, strona: ${PUBLIC_URL}` : `Poligon na Godziny: http://127.0.0.1:${port}`);
   console.log(`Panel: http://127.0.0.1:${port}/admin`);
 });

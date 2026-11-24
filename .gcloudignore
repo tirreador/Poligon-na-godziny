@@ -1,0 +1,16 @@
+.git
+.gitignore
+node_modules
+public
+public-next
+public-prev
+content
+media
+fonts
+lighthouse
+index.html
+gallery.js
+favicon.svg
+.nojekyll
+admin
+README.md

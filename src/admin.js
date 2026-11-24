@@ -199,7 +199,7 @@ async function publish() {
     });
     const data = await response.json();
     if (!response.ok || !data.ok) throw new Error(data.error || "Publikacja nie powiodła się.");
-    setStatus("Opublikowano", "ok");
+    setStatus(data.message || "Opublikowano", "ok");
     viewLink.href = data.url;
     viewLink.hidden = false;
   } catch (error) {
