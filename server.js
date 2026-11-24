@@ -10,10 +10,19 @@ import { createRepo } from "./lib/repo.js";
 
 const appRoot = path.dirname(fileURLToPath(import.meta.url));
 const config = process.env.CMS_CONFIG ? JSON.parse(process.env.CMS_CONFIG) : {};
+
+function withToken(url, token) {
+  if (!url || !token || !url.startsWith("https://")) return url;
+  const parsed = new URL(url);
+  parsed.username = "oauth2";
+  parsed.password = token.trim();
+  return parsed.toString();
+}
+
 const repo = process.env.REPO_URL
   ? createRepo({
     dir: process.env.WORK_DIR || "/tmp/site",
-    fetchUrl: process.env.REPO_URL,
+    fetchUrl: withToken(process.env.REPO_URL, process.env.REPO_TOKEN),
     pushUrl: process.env.REPO_PUSH_URL,
     branch: process.env.REPO_BRANCH || "main",
     sshKey: config.deployKey
@@ -278,6 +287,7 @@ async function handle(req, res) {
             try {
               await repo.commitAndPush([`content/uploads/${file}`], "Dodaj zdjęcie z panelu.");
             } catch (error) {
+              console.error(error.message);
               await repo.sync();
               throw new Error("Nie udało się zapisać zdjęcia w repozytorium. Spróbuj ponownie.");
             }
@@ -311,17 +321,16 @@ async function handle(req, res) {
           try {
             await writeFile(draftPath, JSON.stringify(draft, null, 2) + "\n");
             await publishSite(draft, root, { assetsRoot: appRoot });
-            await repo.commitAndPush(SITE_PATHS, "Opublikuj zmiany z panelu.");
+            await repo.commitAndPush(SITE_PATHS, "Opublikuj zmiany z panelu.").catch((error) => {
+              console.error(error.message);
+              throw new Error("Nie udało się zapisać zmian w repozytorium. Strona została bez zmian.");
+            });
           } catch (error) {
             await repo.sync();
             throw error;
           }
         });
-        json(res, 200, {
-          ok: true,
-          url: `${PUBLIC_URL}?v=${Date.now()}`,
-          message: "Opublikowano. Strona odświeży się w ciągu około minuty."
-        });
+        json(res, 200, { ok: true, url: `${PUBLIC_URL}?v=${Date.now()}`, message: "Opublikowano" });
       } catch (error) {
         json(res, 500, { ok: false, error: error.message || "Publikacja nie powiodła się." });
       }
@@ -332,26 +341,14 @@ async function handle(req, res) {
     return;
   }
 
-  if (repo) {
-    if (pathname === "/") {
-      send(res, 302, "", { location: PUBLIC_URL });
-      return;
-    }
-    if (pathname === "/favicon.svg" || pathname.startsWith("/fonts/")) {
-      const assets = path.join(appRoot, "src");
-      const file = path.resolve(assets, `.${pathname}`);
-      if (inside(assets, file)) {
-        await serveFile(res, file, "public, max-age=86400");
-        return;
-      }
-    }
+  const requested = pathname === "/" ? "/index.html" : pathname;
+  const siteDir = repo ? root : publicDir;
+  if (repo && !["/index.html", "/gallery.js", "/favicon.svg"].includes(requested) && !/^\/(media|fonts)\/[^/]+$/.test(requested)) {
     send(res, 404, "Nie znaleziono", { "content-type": "text/plain; charset=utf-8" });
     return;
   }
-
-  const requested = pathname === "/" ? "/index.html" : pathname;
-  const file = path.resolve(publicDir, `.${requested}`);
-  if (!inside(publicDir, file)) {
+  const file = path.resolve(siteDir, `.${requested}`);
+  if (!inside(siteDir, file)) {
     send(res, 403, "Niedozwolone", { "content-type": "text/plain; charset=utf-8" });
     return;
   }
