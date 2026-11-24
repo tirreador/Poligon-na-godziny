@@ -1,20 +1,21 @@
 {
   "hero": {
     "brand": "Poligon na Godziny",
-    "eyebrow": "Wrocław · jazda terenowa",
-    "title": "Jazda terenowa we Wrocławiu",
-    "lead": "Poligon na Godziny to tor off-road we Wrocławiu. Po krótkim szkoleniu możesz usiąść za kierownicą naszej terenówki i spróbować swoich sił na przeszkodach. Możesz też pokonać trasę jako pasażer, przyjechać własnym 4×4 albo zabrać ekipę na wspólny wypad.",
+    "eyebrow": "",
+    "title": "Off-road we Wrocławiu",
+    "lead": "Przyjedź własnym 4×4 albo spróbuj jazdy naszą terenówką. Po krótkim szkoleniu możesz samodzielnie pokonać przeszkody. Możesz też wybrać przejazd z kierowcą.",
     "image": "hero.jpg",
     "imageAlt": "Terenówka pokonuje błotnistą przeszkodę na torze, w tle jesienne krzewy i niebo",
     "primaryLabel": "Sprawdź cennik",
-    "secondaryLabel": "Szukam vouchera"
+    "secondaryLabel": "Voucher na prezent"
   },
-  "pricingIntro": "Trzy sposoby, żeby wjechać na tor. Cena, czas i zakres są od razu widoczne. Termin ustalamy telefonicznie.",
+  "pricingIntro": "",
+  "pricingCta": "Zadzwoń o cenę lub termin",
   "offers": [
     {
       "id": "wlasne",
-      "name": "Wjazd własną terenówką",
-      "summary": "Przyjeżdżasz własnym 4×4. Wybierasz godzinę albo cały dzień na torze.",
+      "name": "Wjazd własnym 4×4",
+      "summary": "",
       "note": "",
       "ctaLabel": "Ustal termin wjazdu",
       "lines": [
@@ -22,16 +23,16 @@
           "label": "",
           "detail": "",
           "amount": "71 zł",
-          "unit": "brutto",
-          "time": "60 min",
+          "unit": "",
+          "time": "1 godzina",
           "ask": ""
         },
         {
           "label": "",
           "detail": "",
           "amount": "142 zł",
-          "unit": "brutto",
-          "time": "dzień",
+          "unit": "",
+          "time": "Cały dzień",
           "ask": ""
         }
       ]
@@ -39,38 +40,38 @@
     {
       "id": "nasze",
       "name": "Przejazd naszą terenówką",
-      "summary": "Jedziesz autem organizatora — za kierownicą albo jako pasażer. Cenę każdego wariantu ustalamy osobno.",
+      "summary": "",
       "note": "",
       "ctaLabel": "Ustal termin przejazdu",
       "lines": [
         {
-          "label": "Prowadzisz",
-          "detail": "Krótkie szkolenie, potem samodzielna jazda. Kierowca i 2 osoby towarzyszące.",
+          "label": "Prowadzisz po krótkim szkoleniu",
+          "detail": "",
           "amount": "",
           "unit": "",
           "time": "60 min",
-          "ask": "Zapytaj o cenę przejazdu"
+          "ask": "Zadzwoń po cenę"
         },
         {
           "label": "Jedziesz jako pasażer",
-          "detail": "Około 30 minut. Na pokładzie do 3 osób.",
+          "detail": "",
           "amount": "",
           "unit": "",
           "time": "ok. 30 min",
-          "ask": "Zapytaj o cenę przejazdu"
+          "ask": "Zadzwoń po cenę"
         }
       ]
     },
     {
       "id": "impreza",
-      "name": "Impreza dla grupy",
-      "summary": "Wyjazd firmowy, urodziny albo inna impreza prywatna. Całodniowy wypad.",
+      "name": "Imprezy dla grup",
+      "summary": "Całodniowy wyjazd firmowy, urodziny lub impreza prywatna.\nProgram dobieramy do liczby osób.",
       "note": "",
       "ctaLabel": "Zapytaj o imprezę",
       "lines": [
         {
           "label": "",
-          "detail": "Liczbę osób i aut oraz ognisko ustalamy przy wycenie.",
+          "detail": "",
           "amount": "",
           "unit": "",
           "time": "cały dzień",
@@ -80,8 +81,8 @@
     }
   ],
   "voucher": {
-    "title": "Podaruj jazdę terenową",
-    "body": "Za kierownicą czy na miejscu pasażera? Zadzwoń. Pomożemy dobrać przejazd i ustalimy, jak otrzymasz voucher.",
+    "title": "Podaruj przejazd 4×4",
+    "body": "Zadzwoń, a pomożemy wybrać przejazd i ustalimy, jak odbierzesz voucher.",
     "button": "Zadzwoń w sprawie vouchera"
   },
   "gallery": [
@@ -136,9 +137,9 @@
     "phone": "+48 000 000 000",
     "phoneNote": "",
     "address": "ul. Gałowska 73, Wrocław",
-    "directions": "Nawigacja prowadzi pod ten adres. Jeśli z drogi trudno rozpoznać skręt, zadzwoń.",
-    "mapsUrl": "https://www.google.com/maps/dir/?api=1&destination=ul.%20Gałowska%2073%2C%20Wrocław",
-    "mapsLabel": "Prowadź do wjazdu"
+    "directions": "",
+    "mapsQuery": "ul. Gałowska 73, Wrocław",
+    "mapsLabel": "Wyznacz trasę"
   },
   "news": []
 }

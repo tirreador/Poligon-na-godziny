@@ -52,7 +52,6 @@ function offerEditor(offer, index) {
     ${field("Nazwa", `offers.${index}.name`, offer.name)}
     ${field("Opis", `offers.${index}.summary`, offer.summary, { multiline: true, rows: 3 })}
     ${field("Dopisek", `offers.${index}.note`, offer.note, { multiline: true, rows: 2 })}
-    ${field("Napis na przycisku", `offers.${index}.ctaLabel`, offer.ctaLabel)}
     ${(offer.lines || []).map((line, lineIndex) => lineEditor(index, line, lineIndex)).join("")}
     <button type="button" data-action="add-line" data-offer="${index}">Dodaj wariant</button>
   </article>`;
@@ -78,7 +77,6 @@ function render() {
     <section id="sekcja-pierwszy">
       <h2>Pierwszy ekran</h2>
       ${field("Nazwa marki", "hero.brand", draft.hero.brand)}
-      ${field("Linijka nad tytułem", "hero.eyebrow", draft.hero.eyebrow)}
       ${field("Nagłówek", "hero.title", draft.hero.title)}
       ${field("Opis", "hero.lead", draft.hero.lead, { multiline: true, rows: 6 })}
       ${field("Opis zdjęcia", "hero.imageAlt", draft.hero.imageAlt, { multiline: true, rows: 2 })}
@@ -89,8 +87,8 @@ function render() {
     </section>
     <section id="sekcja-cennik">
       <h2>Cennik</h2>
-      <p class="hint">Każda kwota jest zapisana tylko tutaj. Puste pole ceny pokazuje tekst zastępczy, na przykład „Zapytaj o cenę przejazdu”.</p>
-      ${field("Wstęp", "pricingIntro", draft.pricingIntro, { multiline: true, rows: 3 })}
+      <p class="hint">Cena, czas i dopisek biorą się stąd. Puste pole ceny przy przejeździe naszą terenówką zostawia informację telefoniczną. Gdy uzupełnisz cenę jednego wariantu, pojawi się przy jego wierszu.</p>
+      ${field("Przycisk pod ofertą", "pricingCta", draft.pricingCta)}
       ${draft.offers.map(offerEditor).join("")}
     </section>
     <section id="sekcja-voucher">
@@ -101,7 +99,7 @@ function render() {
     </section>
     <section id="sekcja-galeria">
       <h2>Galeria</h2>
-      <p class="hint">Dodajesz i usuwasz zdjęcia tutaj. Podpis „Kozaki” odróżnia zdjęcie z rajdu. Po zmianie wybierz „Zapisz i opublikuj”.</p>
+      <p class="hint">Dodajesz i usuwasz zdjęcia tutaj. Oznaczenie „Kozaki” dopisuje się do podpisu zdjęcia z rajdu. Po zmianie wybierz „Zapisz i opublikuj”.</p>
       <label class="file-btn">Dodaj zdjęcia<input type="file" accept="image/*" data-upload="add" multiple></label>
       ${draft.gallery.length ? draft.gallery.map(shotEditor).join("") : `<p class="hint">Galeria jest pusta.</p>`}
       ${field("Etykieta nagrania", "video.label", draft.video.label)}
@@ -111,10 +109,11 @@ function render() {
       <h2>Dojazd</h2>
       <p class="hint">Numer i link tel: biorą się z tego jednego pola. Pojawia się przy cenniku, voucherze i dojeździe.</p>
       ${field("Numer telefonu", "contact.phone", draft.contact.phone)}
+      ${field("Oznaczenie numeru", "contact.phoneNote", draft.contact.phoneNote)}
       ${field("Adres", "contact.address", draft.contact.address)}
-      ${field("Zdanie dojazdowe", "contact.directions", draft.contact.directions, { multiline: true, rows: 3 })}
-      ${field("Adres mapy", "contact.mapsUrl", draft.contact.mapsUrl, { type: "url" })}
-      ${field("Przycisk mapy", "contact.mapsLabel", draft.contact.mapsLabel)}
+      ${field("Zdanie dojazdowe", "contact.directions", draft.contact.directions, { multiline: true, rows: 2 })}
+      ${field("Cel mapy i trasy", "contact.mapsQuery", draft.contact.mapsQuery)}
+      ${field("Przycisk trasy", "contact.mapsLabel", draft.contact.mapsLabel)}
     </section>
     <section id="sekcja-aktualnosci">
       <h2>Aktualności</h2>
